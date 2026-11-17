@@ -122,3 +122,24 @@ Console.WriteLine(">>> Итоговый список дел <<< ");
 Console.WriteLine($"Количество задач: {tasks.Count}");
 PrintTasks(tasks);
 
+//Вариант 2. Удаление всех совпадений
+int RemoveAllTasks(List<string> tasks, string title)
+{
+    int count = 0;
+
+    for (int i = tasks.Count - 1; i >= 0; i--)
+    {
+        if (tasks[i] == title)
+        {
+            tasks.RemoveAt(i);
+            count++;
+        }
+    }
+
+    return count;
+}
+int deleted = RemoveAllTasks(tasks, "Код");
+
+Console.WriteLine($"Удалено: {deleted}");
+
+PrintTasks(tasks);
