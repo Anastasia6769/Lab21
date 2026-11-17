@@ -1,38 +1,19 @@
-﻿using System.Collections.Generic;
+﻿// Метод безопасной вставки
 
-List<int> numbers = new List<int>();
-List<string> tasks = new List<string>();
-
-Console.WriteLine(tasks.Count);
-
-//3. Добавление и вставка
-tasks.Add("Отчёт");
-tasks.Insert(1, "План");
-//Метод безопасной вставки
 bool InsertTaskSafe(List<string> tasks, int index, string title)
 {
     if (index < 0 || index > tasks.Count)
     {
         return false;
     }
+
     tasks.Insert(index, title);
     return true;
 }
-//Найдите ошибку: добавление по индексу
-List<string> emptyTasks = new List<string>();
-emptyTasks.Add("Код");
-//4. Индексы, изменение и вывод списка
-Console.WriteLine(tasks[0]);
-Console.WriteLine(tasks[tasks.Count - 1]);
-List<string> editableTasks = new List<string> { "Черновик" };
-editableTasks[0] = "Готово";
-Console.WriteLine(editableTasks[0]);
-Console.WriteLine(editableTasks.Count);
-//Перебор списка
-foreach (string title in tasks)
-{
-    Console.WriteLine(title);
-}
+
+
+// Перебор списка
+
 void PrintTasks(List<string> tasks)
 {
     if (tasks.Count == 0)
@@ -45,48 +26,99 @@ void PrintTasks(List<string> tasks)
         Console.WriteLine($"{i}: {tasks[i]}");
     }
 }
-PrintTasks(tasks);
-//5. Удаление элементов
-List<string> removedTasks = new List<string> { "Код", "Тест", "Код" };
-bool removed = removedTasks.Remove("Код");
-Console.WriteLine(removed);
-PrintTasks(removedTasks);
-Console.WriteLine(removedTasks.Remove("Экзамен"));
-Console.WriteLine(removedTasks.Count);
-//Удаление по индексу — RemoveAt()
-removedTasks.RemoveAt(1);
-PrintTasks(removedTasks);
+
+
+// Шаг 5
+
 bool RemoveTaskAtSafe(List<string> tasks, int index)
 {
     if (index < 0 || index >= tasks.Count)
     {
         return false;
     }
-
     tasks.RemoveAt(index);
     return true;
 }
-//Найдите ошибку: значение или индекс
-List<int> scores = new List<int> { 10, 20, 30 };
 
-scores.RemoveAt(1);
+// Шаг 8
 
-Console.WriteLine(scores[0]);
-Console.WriteLine(scores[1]);
-Console.WriteLine(scores.Count);
-//Поиск элементов
-List<string> searchableTasks = new List<string> { "Код", "Тест", "Код" };
-Console.WriteLine(searchableTasks.Contains("Код"));
-Console.WriteLine(searchableTasks.Contains("План"));
-Console.WriteLine(searchableTasks.IndexOf("Код"));
-Console.WriteLine(searchableTasks.IndexOf("План"));
-//Найдите ошибку: индекс ноль
-int index = searchableTasks.IndexOf("Код");
-if (index >= 0)
+Console.Write("Сколько задач добавить сначала: ");
+int count = Convert.ToInt32(Console.ReadLine());
+
+List<string> tasks = new List<string>();
+
+for (int i = 0; i < count; i++)
 {
-    Console.WriteLine($"Первый индекс: {index}");
+    Console.Write($"Задача {i + 1}: ");
+    string title = Console.ReadLine() ?? "";
+    tasks.Add(title);
+}
+
+// 1
+PrintTasks(tasks);
+
+// 2
+Console.Write("Название новой задачи для добавления: ");
+string text = Console.ReadLine();
+tasks.Add(text);
+Console.WriteLine("Задача добавлена");
+
+// 3
+Console.Write("Задача для вставки: ");
+string text1 = Console.ReadLine();
+Console.Write("Индекс для вставки: ");
+int number = int.Parse(Console.ReadLine());
+
+if (InsertTaskSafe(tasks, number, text1))
+{
+    Console.WriteLine("Задача вставлена");
+}
+else
+{
+    Console.WriteLine("Недопустимый индекс вставки");
+}
+
+// 4
+Console.Write("Название для удаления: ");
+string text2 = Console.ReadLine();
+if (tasks.Remove(text2))
+{
+    Console.WriteLine("Первое совпадение удалено");
 }
 else
 {
     Console.WriteLine("Задача не найдена");
 }
+
+// 5
+Console.Write("Индекс для удаления: ");
+int number2 = int.Parse(Console.ReadLine());
+
+if (RemoveTaskAtSafe(tasks, number2))
+{
+    Console.WriteLine("Задача по индексу удалена");
+}
+else
+{
+    Console.WriteLine("Недопустимый индекс удаления");
+}
+
+// 6
+Console.Write("Название для поиска: ");
+string text3 = Console.ReadLine();
+int found = tasks.IndexOf(text3);
+
+if (found >= 0)
+{
+    Console.WriteLine($"Первый индекс: {found}");
+}
+else
+{
+    Console.WriteLine("Задача не найдена");
+}
+
+// 7
+Console.WriteLine(">>> Итоговый список дел <<< ");
+Console.WriteLine($"Количество задач: {tasks.Count}");
+PrintTasks(tasks);
+
